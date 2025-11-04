@@ -12,6 +12,7 @@ import { TaskStats } from '../../components/molecules/TaskStats/TaskStats';
 import { WelcomeModal } from '../../components/molecules/WelcomeModal/WelcomeModal';
 import { CreateTaskModal } from '../../components/molecules/CreateTaskModal/CreateTaskModal';
 import { FloatingNavBar } from '../../components/molecules/FloatingNavBar/FloatingNavBar';
+import { ApiFloatingButton } from '../../components/molecules/ApiFloatingButton/ApiFloatingButton';
 import { TASK_STATUS } from '../../../domain/constants/taskStatuses';
 
 export const TasksPage = ({ onNavigate }) => {
@@ -84,7 +85,8 @@ export const TasksPage = ({ onNavigate }) => {
         </Container>
       </Box>
 
-      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreateModalOpen(true)} onNavigate={onNavigate} />
+      <ApiFloatingButton onNavigate={onNavigate} />
+      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreateModalOpen(true)} />
     </>
   );
 };

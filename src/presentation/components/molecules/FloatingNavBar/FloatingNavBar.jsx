@@ -1,7 +1,7 @@
-import { Box, Typography, Button, Container, Fade, Avatar, Chip } from '@mui/material';
-import { Add as AddIcon, Person as PersonIcon, Cloud as CloudIcon } from '@mui/icons-material';
+import { Box, Typography, Button, Container, Fade, Avatar } from '@mui/material';
+import { Add as AddIcon, Person as PersonIcon } from '@mui/icons-material';
 
-export const FloatingNavBar = ({ userName, onCreateTask, onNavigate }) => {
+export const FloatingNavBar = ({ userName, onCreateTask }) => {
   return (
     <Fade in timeout={800}>
       <Box
@@ -101,31 +101,6 @@ export const FloatingNavBar = ({ userName, onCreateTask, onNavigate }) => {
           </Box>
 
           <Box sx={{ display: 'flex', gap: { xs: 1, md: 1.5 }, alignItems: 'center' }}>
-            <Chip
-              icon={<CloudIcon />}
-              label="API EXTERNA"
-              onClick={() => onNavigate('weather')}
-              sx={{
-                background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
-                color: 'white',
-                fontWeight: 700,
-                fontSize: { xs: '0.7rem', md: '0.75rem' },
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                boxShadow: '0 0 20px rgba(245, 158, 11, 0.4)',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #fb923c 0%, #f59e0b 100%)',
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 0 30px rgba(245, 158, 11, 0.6)',
-                },
-                '& .MuiChip-icon': {
-                  color: 'white',
-                  fontSize: { xs: 18, md: 20 },
-                },
-              }}
-            />
-
             <Button
               variant="contained"
               startIcon={<AddIcon />}
