@@ -77,6 +77,7 @@ export const CreateTaskModal = ({ open, onClose, onSubmit }) => {
 
         <Typography
           variant="h4"
+          component="div"
           sx={{
             fontWeight: 700,
             background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',

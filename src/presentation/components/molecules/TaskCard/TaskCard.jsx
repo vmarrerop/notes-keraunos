@@ -323,6 +323,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
 
               <Typography
                 variant="h4"
+                component="div"
                 sx={{
                   fontWeight: 700,
                   background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
@@ -358,7 +359,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
               }}
             >
               <Box flex={1} pr={2}>
-                <Typography variant="h2" gutterBottom>
+                <Typography variant="h2" component="div" gutterBottom>
                   {task.title}
                 </Typography>
                 <Box

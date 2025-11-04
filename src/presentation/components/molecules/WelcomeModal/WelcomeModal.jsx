@@ -10,6 +10,7 @@ import {
   Typography,
   Fade,
   Backdrop,
+  InputAdornment,
 } from '@mui/material';
 import { Person as PersonIcon, Rocket as RocketIcon } from '@mui/icons-material';
 
@@ -65,6 +66,7 @@ export const WelcomeModal = ({ open, onSave }) => {
           </Box>
           <Typography
             variant="h3"
+            component="div"
             sx={{
               fontWeight: 700,
               background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
@@ -91,7 +93,9 @@ export const WelcomeModal = ({ open, onSave }) => {
             placeholder="Ej: María García"
             InputProps={{
               startAdornment: (
-                <PersonIcon sx={{ color: 'text.secondary', mr: 1, fontSize: 20 }} />
+                <InputAdornment position="start">
+                  <PersonIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                </InputAdornment>
               ),
             }}
             sx={{

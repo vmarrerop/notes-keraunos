@@ -123,6 +123,9 @@ export const darkTheme = createTheme({
               borderColor: 'rgba(59, 130, 246, 0.5)',
             },
           },
+          '& .MuiInputLabel-root.MuiInputLabel-shrink': {
+            transform: 'translate(14px, -4px) scale(0.75)',
+          },
         },
       },
     },

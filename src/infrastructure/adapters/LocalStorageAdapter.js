@@ -3,64 +3,114 @@ import { Task } from '../../domain/entities/Task';
 const STORAGE_KEY = 'keraunos_tasks';
 
 export class LocalStorageAdapter {
-  getAll() {
+  _loadRaw() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
       if (!data) return [];
-      
+
       const parsed = JSON.parse(data);
       if (!Array.isArray(parsed)) return [];
-      
-      return parsed.map(task => new Task(task));
+
+      return parsed;
     } catch (error) {
       console.error('Error loading tasks from localStorage:', error);
       return [];
     }
   }
 
-  getById(id) {
-    const tasks = this.getAll();
-    return tasks.find(task => task.id === id) || null;
-  }
-
-  create(taskData) {
-    const tasks = this.getAll();
-    const newTask = new Task({
-      id: crypto.randomUUID(),
-      ...taskData,
-    });
-    tasks.push(newTask);
-    this._save(tasks);
-    return newTask;
-  }
-
-  update(id, updates) {
-    const tasks = this.getAll();
-    const index = tasks.findIndex(task => task.id === id);
-    
-    if (index === -1) {
-      throw new Error(`Task with id ${id} not found`);
-    }
-
-    const updatedTask = new Task({ ...tasks[index], ...updates });
-    tasks[index] = updatedTask;
-    this._save(tasks);
-    return updatedTask;
-  }
-
-  delete(id) {
-    const tasks = this.getAll();
-    const filteredTasks = tasks.filter(task => task.id !== id);
-    this._save(filteredTasks);
-    return true;
-  }
-
-  _save(tasks) {
+  _saveRaw(tasks) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     } catch (error) {
       console.error('Error saving tasks to localStorage:', error);
       throw error;
     }
+  }
+
+  _serializeForStorage(taskLike) {
+    const {
+      id,
+      title = '',
+      description = '',
+      dueDate = null,
+      statuses = [],
+      notes = '',
+    } = taskLike;
+
+    return {
+      id: id || crypto.randomUUID(),
+      title,
+      description,
+      dueDate,
+      notes,
+      statuses: Array.isArray(statuses)
+        ? statuses.map(({ value, timestamp }) => ({ value, timestamp }))
+        : [],
+    };
+  }
+
+  getAll() {
+    const rawTasks = this._loadRaw();
+    let hasChanges = false;
+
+    const normalized = rawTasks.map((task) => {
+      const serialized = this._serializeForStorage(task);
+      if (!hasChanges) {
+        hasChanges = JSON.stringify(serialized) !== JSON.stringify(task);
+      }
+      return serialized;
+    });
+
+    if (hasChanges) {
+      this._saveRaw(normalized);
+    }
+
+    return normalized.map((task) => new Task(task));
+  }
+
+  getById(id) {
+    const tasks = this._loadRaw();
+    const found = tasks.find((task) => task.id === id);
+    return found ? new Task(found) : null;
+  }
+
+  create(taskData) {
+    const tasks = this._loadRaw();
+    const newTaskData = this._serializeForStorage({
+      ...taskData,
+      id: taskData.id || crypto.randomUUID(),
+    });
+    tasks.push(newTaskData);
+    this._saveRaw(tasks);
+    return new Task(newTaskData);
+  }
+
+  update(id, updates) {
+    const tasks = this._loadRaw();
+    const index = tasks.findIndex((task) => task.id === id);
+    
+    if (index === -1) {
+      throw new Error(`Task with id ${id} not found`);
+    }
+
+    const baseTask = tasks[index];
+    const merged = this._serializeForStorage({
+      ...baseTask,
+      ...updates,
+      statuses: Array.isArray(updates?.statuses)
+        ? updates.statuses
+        : baseTask.statuses,
+    });
+
+    tasks[index] = merged;
+    this._saveRaw(tasks);
+    return new Task(merged);
+  }
+
+  delete(id) {
+    const tasks = this._loadRaw();
+    const filteredTasks = tasks.filter((task) => task.id !== id);
+    this._saveRaw(filteredTasks);
+    return true;
   }
 }
