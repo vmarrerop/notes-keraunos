@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Container, Fade } from '@mui/material';
+import { Box, Typography, Button, Container, Fade, Avatar } from '@mui/material';
 import { Add as AddIcon, Person as PersonIcon } from '@mui/icons-material';
 
 export const FloatingNavBar = ({ userName, onCreateTask }) => {
@@ -37,31 +37,42 @@ export const FloatingNavBar = ({ userName, onCreateTask }) => {
             },
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              fontSize: { xs: '0.8rem', sm: '1.1rem' },
-              color: '#f8fafc',
-              whiteSpace: 'nowrap',
-              display: { xs: 'none', sm: 'block' },
-            }}
-          >
-            Gestor de Tareas Keraunos
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, md: 1.5 } }}>
+            <Avatar
+              src="/keranous.png"
+              alt="Keraunos"
+              sx={{
+                width: { xs: 45, md: 55 },
+                height: { xs: 45, md: 55 },
+                bgcolor: 'transparent',
+              }}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                fontSize: { xs: '0.8rem', sm: '1.1rem' },
+                color: '#f8fafc',
+                whiteSpace: 'nowrap',
+                display: { xs: 'none', sm: 'block' },
+              }}
+            >
+              Gestor de Tareas Keraunos
+            </Typography>
 
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              color: '#f8fafc',
-              whiteSpace: 'nowrap',
-              display: { xs: 'block', sm: 'none' },
-            }}
-          >
-            Keraunos
-          </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                color: '#f8fafc',
+                whiteSpace: 'nowrap',
+                display: { xs: 'block', sm: 'none' },
+              }}
+            >
+              Keraunos
+            </Typography>
+          </Box>
 
           <Box
             sx={{
