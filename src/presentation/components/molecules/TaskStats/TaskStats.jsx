@@ -35,8 +35,8 @@ export const TaskStats = ({ stats }) => {
   ];
 
   return (
-    <Box sx={{ mb: 4 }}>
-      <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+    <Box sx={{ mb: { xs: 2, md: 4 } }}>
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={{ xs: 1.5, md: 2 }}>
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -45,12 +45,12 @@ export const TaskStats = ({ stats }) => {
               elevation={0}
               sx={{
                 flex: 1,
-                p: 3,
+                p: { xs: 2, md: 3 },
                 background: alpha('#1e293b', 0.6),
                 backdropFilter: 'blur(20px)',
                 border: '1px solid',
                 borderColor: alpha('#94a3b8', 0.1),
-                borderRadius: 3,
+                borderRadius: { xs: 2, md: 3 },
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
                   borderColor: stat.color,
@@ -59,10 +59,10 @@ export const TaskStats = ({ stats }) => {
                 },
               }}
             >
-              <Stack direction="row" alignItems="center" spacing={2}>
+              <Stack direction="row" alignItems="center" spacing={{ xs: 1.5, md: 2 }}>
                 <Box
                   sx={{
-                    p: 1.5,
+                    p: { xs: 1, md: 1.5 },
                     borderRadius: 2,
                     bgcolor: stat.bgColor,
                     display: 'flex',
@@ -70,13 +70,13 @@ export const TaskStats = ({ stats }) => {
                     justifyContent: 'center',
                   }}
                 >
-                  <Icon sx={{ fontSize: 28, color: stat.color }} />
+                  <Icon sx={{ fontSize: { xs: 22, md: 28 }, color: stat.color }} />
                 </Box>
                 <Box flex={1}>
-                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: '0.75rem' }}>
+                  <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
                     {stat.label}
                   </Typography>
-                  <Typography variant="h2" fontWeight={700} sx={{ fontSize: '1.75rem' }}>
+                  <Typography variant="h2" fontWeight={700} sx={{ fontSize: { xs: '1.5rem', md: '1.75rem' } }}>
                     {stat.value}
                   </Typography>
                 </Box>
@@ -89,12 +89,12 @@ export const TaskStats = ({ stats }) => {
           elevation={0}
           sx={{
             flex: 1,
-            p: 3,
+            p: { xs: 2, md: 3 },
             background: alpha('#1e293b', 0.6),
             backdropFilter: 'blur(20px)',
             border: '1px solid',
             borderColor: alpha('#94a3b8', 0.1),
-            borderRadius: 3,
+            borderRadius: { xs: 2, md: 3 },
             transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               borderColor: '#3b82f6',
@@ -103,10 +103,10 @@ export const TaskStats = ({ stats }) => {
             },
           }}
         >
-          <Stack direction="row" alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center" spacing={{ xs: 1.5, md: 2 }}>
             <Box
               sx={{
-                p: 1.5,
+                p: { xs: 1, md: 1.5 },
                 borderRadius: 2,
                 bgcolor: alpha('#3b82f6', 0.1),
                 display: 'flex',
@@ -114,21 +114,21 @@ export const TaskStats = ({ stats }) => {
                 justifyContent: 'center',
               }}
             >
-              <TrendingIcon sx={{ fontSize: 28, color: '#3b82f6' }} />
+              <TrendingIcon sx={{ fontSize: { xs: 22, md: 28 }, color: '#3b82f6' }} />
             </Box>
             <Box flex={1}>
-              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: '0.75rem' }}>
+              <Typography variant="body2" color="text.secondary" gutterBottom sx={{ fontSize: { xs: '0.7rem', md: '0.75rem' } }}>
                 Progreso
               </Typography>
-              <Typography variant="h2" fontWeight={700} sx={{ fontSize: '1.75rem' }}>
+              <Typography variant="h2" fontWeight={700} sx={{ fontSize: { xs: '1.5rem', md: '1.75rem' } }}>
                 {completionRate.toFixed(0)}%
               </Typography>
               <LinearProgress
                 variant="determinate"
                 value={completionRate}
                 sx={{
-                  mt: 1.5,
-                  height: 6,
+                  mt: { xs: 1, md: 1.5 },
+                  height: { xs: 4, md: 6 },
                   borderRadius: 3,
                   bgcolor: alpha('#3b82f6', 0.1),
                   '& .MuiLinearProgress-bar': {

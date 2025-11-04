@@ -39,11 +39,17 @@ export const TaskList = ({ tasks, onUpdateTask, onDeleteTask }) => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={3}>
+    <Box sx={{ flexGrow: 1, px: { xs: 0.5, sm: 0 } }}>
+      <Grid
+        container
+        spacing={{ xs: 2, sm: 2.5, md: 3 }}
+        justifyContent="center"
+      >
         {tasks.map((task) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={task.id}>
-            <TaskCard task={task} onUpdate={onUpdateTask} onDelete={onDeleteTask} />
+          <Grid item xs={12} sm={6} md={4} lg={3} key={task.id} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ width: { xs: '100%', sm: '100%' }, maxWidth: { xs: 280, sm: 'none' } }}>
+              <TaskCard task={task} onUpdate={onUpdateTask} onDelete={onDeleteTask} />
+            </Box>
           </Grid>
         ))}
       </Grid>

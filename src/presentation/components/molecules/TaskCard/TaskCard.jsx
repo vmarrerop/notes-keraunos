@@ -104,14 +104,15 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
     return (
       <Card
         sx={{
-          height: 280,
+          height: { xs: 'auto', md: 280 },
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
           border: '1px solid rgba(59, 130, 246, 0.3)',
         }}
       >
-        <CardContent sx={{ flexGrow: 1, p: 2.5, overflow: 'auto' }}>
+        <CardContent sx={{ flexGrow: 1, p: { xs: 2, md: 2.5 }, overflow: 'auto' }}>
           <TaskForm
             initialData={task}
             onSubmit={handleSave}
@@ -130,7 +131,10 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsModalOpen(true)}
         sx={{
-          height: 280,
+          height: { xs: 220, sm: 260, md: 280 },
+          width: '100%',
+          minWidth: { xs: 280, sm: 'auto' },
+          maxWidth: { xs: 280, sm: 'none' },
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
@@ -190,9 +194,9 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
             >
               <VisibilityIcon
                 sx={{
-                  fontSize: 64,
+                  fontSize: { xs: 52, sm: 56, md: 64 },
                   color: 'primary.main',
-                  mb: 2,
+                  mb: { xs: 1.5, md: 2 },
                   filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))',
                 }}
               />
@@ -202,6 +206,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
                   color: 'primary.main',
                   fontWeight: 600,
                   letterSpacing: '0.5px',
+                  fontSize: { xs: '0.9rem', md: '1rem' },
                 }}
               >
                 Ver detalles
@@ -213,7 +218,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
         <CardContent
           sx={{
             flexGrow: 1,
-            p: 3,
+            p: { xs: 2.5, md: 3 },
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -227,14 +232,17 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
             sx={{
               color: 'text.primary',
               fontWeight: 600,
-              lineHeight: 1.4,
-              mb: 3,
+              lineHeight: 1.3,
+              mb: { xs: 2.5, md: 3 },
+              fontSize: { xs: '1.05rem', sm: '1.15rem', md: '1.25rem' },
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
-              minHeight: '4.2em',
+              height: { xs: '2.6em', md: '3.9em' },
+              minHeight: { xs: '2.6em', md: '3.9em' },
+              maxHeight: { xs: '2.6em', md: '3.9em' },
             }}
           >
             {task.title}
@@ -244,18 +252,19 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1.5,
-              p: 2,
+              gap: { xs: 1.25, md: 1.5 },
+              p: { xs: 1.75, md: 2 },
               borderRadius: 3,
               bgcolor: statusConfig.bgColor,
               border: '1px solid',
               borderColor: `${statusConfig.color}40`,
-              minWidth: '160px',
+              minWidth: { xs: '150px', md: '160px' },
+              boxShadow: `0 4px 12px ${statusConfig.bgColor}`,
             }}
           >
             <StatusIcon
               sx={{
-                fontSize: 28,
+                fontSize: { xs: 24, md: 28 },
                 color: statusConfig.color,
               }}
             />
@@ -264,7 +273,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
               sx={{
                 color: statusConfig.color,
                 fontWeight: 600,
-                fontSize: '0.875rem',
+                fontSize: { xs: '0.85rem', md: '0.875rem' },
               }}
             >
               {statusConfig.label}

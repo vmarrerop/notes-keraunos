@@ -4,15 +4,15 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#3b82f6',
-      light: '#60a5fa',
-      dark: '#2563eb',
-      contrastText: '#ffffff',
+      main: '#ffffff',
+      light: '#f8fafc',
+      dark: '#e2e8f0',
+      contrastText: '#0f172a',
     },
     secondary: {
-      main: '#8b5cf6',
-      light: '#a78bfa',
-      dark: '#7c3aed',
+      main: '#0f172a',
+      light: '#1e293b',
+      dark: '#020617',
     },
     success: {
       main: '#10b981',
@@ -30,9 +30,9 @@ export const darkTheme = createTheme({
       dark: '#dc2626',
     },
     info: {
-      main: '#3b82f6',
-      light: '#60a5fa',
-      dark: '#2563eb',
+      main: '#ffffff',
+      light: '#f8fafc',
+      dark: '#e2e8f0',
     },
     background: {
       default: '#0f172a',
