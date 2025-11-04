@@ -1,4 +1,5 @@
 import { Task } from '../../domain/entities/Task';
+import dbData from '../../../db.json';
 
 const STORAGE_KEY = 'keraunos_tasks';
 
@@ -6,7 +7,9 @@ export class LocalStorageAdapter {
   _loadRaw() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
-      if (!data) return [];
+      if (!data) {
+        return dbData.tasks || [];
+      }
 
       const parsed = JSON.parse(data);
       if (!Array.isArray(parsed)) return [];

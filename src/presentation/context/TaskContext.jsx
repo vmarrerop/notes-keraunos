@@ -11,12 +11,29 @@ const TASK_ACTIONS = {
   SET_ERROR: 'SET_ERROR',
 };
 
+// Función helper para eliminar duplicados por ID
+const removeDuplicates = (tasks) => {
+  const uniqueTasks = [];
+  const seenIds = new Set();
+  
+  for (const task of tasks) {
+    if (!seenIds.has(task.id)) {
+      seenIds.add(task.id);
+      uniqueTasks.push(task);
+    } else {
+      console.warn(`⚠️ Tarea duplicada detectada y eliminada - ID: ${task.id}, Título: ${task.title}`);
+    }
+  }
+  
+  return uniqueTasks;
+};
+
 const taskReducer = (state, action) => {
   switch (action.type) {
     case TASK_ACTIONS.SET_TASKS:
       return {
         ...state,
-        tasks: action.payload,
+        tasks: removeDuplicates(action.payload),
         isLoading: false,
         error: null,
       };
@@ -24,15 +41,17 @@ const taskReducer = (state, action) => {
     case TASK_ACTIONS.ADD_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        tasks: removeDuplicates([...state.tasks, action.payload]),
         error: null,
       };
     
     case TASK_ACTIONS.UPDATE_TASK:
       return {
         ...state,
-        tasks: state.tasks.map(task =>
-          task.id === action.payload.id ? action.payload : task
+        tasks: removeDuplicates(
+          state.tasks.map(task =>
+            task.id === action.payload.id ? action.payload : task
+          )
         ),
         error: null,
       };
@@ -68,25 +87,15 @@ const initialState = {
   error: null,
 };
 
-export const TaskProvider = ({ children, initialTasks = [] }) => {
+export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   useEffect(() => {
     const loadTasks = async () => {
       try {
         dispatch({ type: TASK_ACTIONS.SET_LOADING, payload: true });
-        
         const storedTasks = await taskUseCases.getTasks.execute();
-        
-        if (storedTasks.length === 0 && initialTasks.length > 0) {
-          for (const task of initialTasks) {
-            await taskUseCases.createTask.execute(task);
-          }
-          const newTasks = await taskUseCases.getTasks.execute();
-          dispatch({ type: TASK_ACTIONS.SET_TASKS, payload: newTasks });
-        } else {
-          dispatch({ type: TASK_ACTIONS.SET_TASKS, payload: storedTasks });
-        }
+        dispatch({ type: TASK_ACTIONS.SET_TASKS, payload: storedTasks });
       } catch (error) {
         console.error('Error loading tasks:', error);
         dispatch({ type: TASK_ACTIONS.SET_ERROR, payload: error.message });
@@ -94,7 +103,7 @@ export const TaskProvider = ({ children, initialTasks = [] }) => {
     };
 
     loadTasks();
-  }, [initialTasks]);
+  }, []);
 
   const addTask = useCallback(async (taskData) => {
     try {

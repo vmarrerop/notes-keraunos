@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "id": "1",
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
       "title": "Implementar componente de tareas",
       "description": "Crear un componente reutilizable para mostrar los detalles de una tarea con Material UI y diseño dark mode profesional",
       "dueDate": "2025-11-10",
@@ -14,7 +14,7 @@
       "notes": "Usar arquitectura limpia y componentes atómicos. Priorizar la experiencia visual y la responsividad."
     },
     {
-      "id": "2",
+      "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
       "title": "Configurar pruebas unitarias",
       "description": "Añadir Jest y React Testing Library al proyecto para garantizar la calidad del código",
       "dueDate": "2025-11-15",
@@ -27,7 +27,7 @@
       "notes": "Priorizar componentes críticos como TaskCard y TaskForm"
     },
     {
-      "id": "3",
+      "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
       "title": "Optimizar rendimiento",
       "description": "Implementar lazy loading y memoización en componentes que lo requieran",
       "dueDate": "2025-11-20",
@@ -40,7 +40,7 @@
       "notes": "Analizar bundle size y optimizar imports"
     },
     {
-      "id": "4",
+      "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
       "title": "Documentación técnica",
       "description": "Crear documentación completa del proyecto incluyendo arquitectura y guías de uso",
       "dueDate": "2025-11-25",
