@@ -81,7 +81,6 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
 
   const handleEdit = () => {
     setIsEditing(true);
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -100,29 +99,10 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
     }
   };
 
-  if (isEditing) {
-    return (
-      <Card
-        sx={{
-          height: { xs: 'auto', md: 280 },
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-          border: '1px solid rgba(59, 130, 246, 0.3)',
-        }}
-      >
-        <CardContent sx={{ flexGrow: 1, p: { xs: 2, md: 2.5 }, overflow: 'auto' }}>
-          <TaskForm
-            initialData={task}
-            onSubmit={handleSave}
-            onCancel={handleCancel}
-            submitLabel="Guardar"
-          />
-        </CardContent>
-      </Card>
-    );
-  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsEditing(false);
+  };
 
   return (
     <>
@@ -284,7 +264,7 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
 
       <Dialog
         open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         maxWidth="md"
         fullWidth
         TransitionComponent={Fade}
@@ -292,224 +272,291 @@ export const TaskCard = ({ task, onUpdate, onDelete }) => {
         BackdropProps={{
           timeout: 500,
           sx: {
-            backdropFilter: 'blur(8px)',
-            backgroundColor: 'rgba(15, 23, 42, 0.8)',
+            backdropFilter: 'blur(12px)',
+            backgroundColor: 'rgba(15, 23, 42, 0.85)',
           },
         }}
         sx={{
           '& .MuiDialog-paper': {
-            borderRadius: 3,
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-            border: '1px solid rgba(148, 163, 184, 0.1)',
+            borderRadius: 4,
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+            maxHeight: '90vh',
           },
         }}
       >
-        <DialogTitle
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            pb: 2,
-          }}
-        >
-          <Box flex={1} pr={2}>
-            <Typography variant="h2" gutterBottom>
-              {task.title}
-            </Typography>
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 1,
-                p: 1.5,
-                mt: 1,
-                borderRadius: 2,
-                bgcolor: statusConfig.bgColor,
-                border: '1px solid',
-                borderColor: `${statusConfig.color}40`,
-              }}
-            >
-              <StatusIcon
+        {isEditing ? (
+          <>
+            <DialogTitle sx={{ textAlign: 'center', pt: 5, pb: 2, position: 'relative' }}>
+              <IconButton
+                onClick={handleCloseModal}
                 sx={{
-                  fontSize: 20,
-                  color: statusConfig.color,
-                }}
-              />
-              <Typography
-                variant="body2"
-                sx={{
-                  color: statusConfig.color,
-                  fontWeight: 600,
+                  position: 'absolute',
+                  right: 16,
+                  top: 16,
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'error.main',
+                    bgcolor: 'rgba(239, 68, 68, 0.1)',
+                  },
                 }}
               >
-                {statusConfig.label}
+                <CloseIcon />
+              </IconButton>
+
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 72,
+                  height: 72,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                  mb: 2,
+                  boxShadow: '0 8px 32px rgba(255, 255, 255, 0.15)',
+                }}
+              >
+                <EditIcon sx={{ fontSize: 36, color: '#0f172a' }} />
+              </Box>
+
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  mb: 1,
+                }}
+              >
+                Editar Tarea
               </Typography>
-            </Box>
-          </Box>
-          <IconButton
-            onClick={() => setIsModalOpen(false)}
-            size="small"
-            sx={{
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'text.primary',
-                bgcolor: 'rgba(148, 163, 184, 0.1)',
-              },
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                Actualiza la información de tu tarea
+              </Typography>
+            </DialogTitle>
 
-        <Divider />
-
-        <DialogContent sx={{ pt: 3 }}>
-          <Stack spacing={3}>
-            {task.description && (
-              <Box>
-                <Typography
-                  variant="overline"
-                  color="text.secondary"
-                  fontWeight={600}
-                  sx={{ letterSpacing: '1px' }}
-                >
-                  Descripción
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 1, color: 'text.primary', lineHeight: 1.7 }}>
-                  {task.description}
-                </Typography>
-              </Box>
-            )}
-
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
-              <Box flex={1}>
-                <Typography
-                  variant="overline"
-                  color="text.secondary"
-                  fontWeight={600}
-                  sx={{ letterSpacing: '1px' }}
-                >
-                  Fecha de Vencimiento
-                </Typography>
-                <Box display="flex" alignItems="center" gap={1} mt={1}>
-                  <CalendarIcon
-                    sx={{ fontSize: 20, color: isOverdue ? 'error.main' : 'text.secondary' }}
-                  />
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: isOverdue ? 'error.main' : 'text.primary',
-                      fontWeight: isOverdue ? 600 : 400,
-                    }}
-                  >
-                    {formattedDate}
-                  </Typography>
-                </Box>
-              </Box>
-
-              {currentStatus && (
-                <Box flex={1}>
-                  <Typography
-                    variant="overline"
-                    color="text.secondary"
-                    fontWeight={600}
-                    sx={{ letterSpacing: '1px' }}
-                  >
-                    Última Actualización
-                  </Typography>
-                  <Box display="flex" alignItems="center" gap={1} mt={1}>
-                    <TimelineIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
-                    <Typography variant="body1">
-                      {new Date(currentStatus.timestamp).toLocaleDateString('es-ES', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
-            </Stack>
-
-            {task.notes && (
-              <Box>
-                <Typography
-                  variant="overline"
-                  color="text.secondary"
-                  fontWeight={600}
-                  sx={{ letterSpacing: '1px' }}
-                >
-                  Notas
+            <DialogContent sx={{ px: 4, pb: 4, pt: 1 }}>
+              <TaskForm
+                initialData={task}
+                onSubmit={handleSave}
+                onCancel={handleCancel}
+                submitLabel="Guardar Cambios"
+              />
+            </DialogContent>
+          </>
+        ) : (
+          <>
+            <DialogTitle
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                pb: 2,
+              }}
+            >
+              <Box flex={1} pr={2}>
+                <Typography variant="h2" gutterBottom>
+                  {task.title}
                 </Typography>
                 <Box
                   sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    p: 1.5,
                     mt: 1,
-                    p: 2.5,
-                    bgcolor: 'rgba(59, 130, 246, 0.05)',
-                    border: '1px solid rgba(59, 130, 246, 0.2)',
                     borderRadius: 2,
-                    borderLeft: '4px solid',
-                    borderLeftColor: 'primary.main',
+                    bgcolor: statusConfig.bgColor,
+                    border: '1px solid',
+                    borderColor: `${statusConfig.color}40`,
                   }}
                 >
-                  <Box display="flex" alignItems="flex-start" gap={1.5}>
-                    <NotesIcon sx={{ fontSize: 20, color: 'primary.main', mt: 0.3 }} />
-                    <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
-                      {task.notes}
-                    </Typography>
-                  </Box>
+                  <StatusIcon
+                    sx={{
+                      fontSize: 20,
+                      color: statusConfig.color,
+                    }}
+                  />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: statusConfig.color,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {statusConfig.label}
+                  </Typography>
                 </Box>
               </Box>
-            )}
-          </Stack>
-        </DialogContent>
+              <IconButton
+                onClick={handleCloseModal}
+                size="small"
+                sx={{
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'text.primary',
+                    bgcolor: 'rgba(148, 163, 184, 0.1)',
+                  },
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
 
-        <Divider />
+            <Divider />
 
-        <DialogActions sx={{ p: 2.5, gap: 1 }}>
-          <Button
-            onClick={() => setIsModalOpen(false)}
-            color="inherit"
-            sx={{
-              '&:hover': {
-                bgcolor: 'rgba(148, 163, 184, 0.1)',
-              },
-            }}
-          >
-            Cerrar
-          </Button>
-          <Box flex={1} />
-          <Button
-            onClick={handleEdit}
-            variant="outlined"
-            startIcon={<EditIcon />}
-            sx={{
-              borderColor: 'primary.main',
-              color: 'primary.main',
-              '&:hover': {
-                borderColor: 'primary.light',
-                bgcolor: 'rgba(59, 130, 246, 0.1)',
-              },
-            }}
-          >
-            Editar
-          </Button>
-          <Button
-            onClick={handleDelete}
-            variant="contained"
-            color="error"
-            startIcon={<DeleteIcon />}
-            sx={{
-              '&:hover': {
-                bgcolor: 'error.dark',
-              },
-            }}
-          >
-            Eliminar
-          </Button>
-        </DialogActions>
+            <DialogContent sx={{ pt: 3 }}>
+              <Stack spacing={3}>
+                {task.description && (
+                  <Box>
+                    <Typography
+                      variant="overline"
+                      color="text.secondary"
+                      fontWeight={600}
+                      sx={{ letterSpacing: '1px' }}
+                    >
+                      Descripción
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 1, color: 'text.primary', lineHeight: 1.7 }}>
+                      {task.description}
+                    </Typography>
+                  </Box>
+                )}
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+                  <Box flex={1}>
+                    <Typography
+                      variant="overline"
+                      color="text.secondary"
+                      fontWeight={600}
+                      sx={{ letterSpacing: '1px' }}
+                    >
+                      Fecha de Vencimiento
+                    </Typography>
+                    <Box display="flex" alignItems="center" gap={1} mt={1}>
+                      <CalendarIcon
+                        sx={{ fontSize: 20, color: isOverdue ? 'error.main' : 'text.secondary' }}
+                      />
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: isOverdue ? 'error.main' : 'text.primary',
+                          fontWeight: isOverdue ? 600 : 400,
+                        }}
+                      >
+                        {formattedDate}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {currentStatus && (
+                    <Box flex={1}>
+                      <Typography
+                        variant="overline"
+                        color="text.secondary"
+                        fontWeight={600}
+                        sx={{ letterSpacing: '1px' }}
+                      >
+                        Última Actualización
+                      </Typography>
+                      <Box display="flex" alignItems="center" gap={1} mt={1}>
+                        <TimelineIcon sx={{ fontSize: 20, color: 'text.secondary' }} />
+                        <Typography variant="body1">
+                          {new Date(currentStatus.timestamp).toLocaleDateString('es-ES', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )}
+                </Stack>
+
+                {task.notes && (
+                  <Box>
+                    <Typography
+                      variant="overline"
+                      color="text.secondary"
+                      fontWeight={600}
+                      sx={{ letterSpacing: '1px' }}
+                    >
+                      Notas
+                    </Typography>
+                    <Box
+                      sx={{
+                        mt: 1,
+                        p: 2.5,
+                        bgcolor: 'rgba(59, 130, 246, 0.05)',
+                        border: '1px solid rgba(59, 130, 246, 0.2)',
+                        borderRadius: 2,
+                        borderLeft: '4px solid',
+                        borderLeftColor: 'primary.main',
+                      }}
+                    >
+                      <Box display="flex" alignItems="flex-start" gap={1.5}>
+                        <NotesIcon sx={{ fontSize: 20, color: 'primary.main', mt: 0.3 }} />
+                        <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
+                          {task.notes}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+              </Stack>
+            </DialogContent>
+
+            <Divider />
+
+            <DialogActions sx={{ p: 2.5, gap: 1 }}>
+              <Button
+                onClick={handleCloseModal}
+                color="inherit"
+                sx={{
+                  '&:hover': {
+                    bgcolor: 'rgba(148, 163, 184, 0.1)',
+                  },
+                }}
+              >
+                Cerrar
+              </Button>
+              <Box flex={1} />
+              <Button
+                onClick={handleEdit}
+                variant="outlined"
+                startIcon={<EditIcon />}
+                sx={{
+                  borderColor: 'primary.main',
+                  color: 'primary.main',
+                  '&:hover': {
+                    borderColor: 'primary.light',
+                    bgcolor: 'rgba(59, 130, 246, 0.1)',
+                  },
+                }}
+              >
+                Editar
+              </Button>
+              <Button
+                onClick={handleDelete}
+                variant="contained"
+                color="error"
+                startIcon={<DeleteIcon />}
+                sx={{
+                  '&:hover': {
+                    bgcolor: 'error.dark',
+                  },
+                }}
+              >
+                Eliminar
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </>
   );
