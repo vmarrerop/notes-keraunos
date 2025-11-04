@@ -3,11 +3,11 @@ export class UpdateTaskUseCase {
     this.taskRepository = taskRepository;
   }
 
-  execute(taskId, updates) {
+  async execute(taskId, updates) {
     if (!taskId) {
       throw new Error('Task ID is required');
     }
 
-    return this.taskRepository.update(taskId, updates);
+    return await this.taskRepository.update(taskId, updates);
   }
 }

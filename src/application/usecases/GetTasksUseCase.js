@@ -3,7 +3,7 @@ export class GetTasksUseCase {
     this.taskRepository = taskRepository;
   }
 
-  execute() {
-    return this.taskRepository.getAll();
+  async execute() {
+    return await this.taskRepository.getAll();
   }
 }

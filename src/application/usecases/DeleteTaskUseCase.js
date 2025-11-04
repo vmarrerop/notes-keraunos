@@ -3,11 +3,11 @@ export class DeleteTaskUseCase {
     this.taskRepository = taskRepository;
   }
 
-  execute(taskId) {
+  async execute(taskId) {
     if (!taskId) {
       throw new Error('Task ID is required');
     }
 
-    return this.taskRepository.delete(taskId);
+    return await this.taskRepository.delete(taskId);
   }
 }

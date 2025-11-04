@@ -1,12 +1,11 @@
 import { Task } from '../../domain/entities/Task';
+import { STORAGE_CONFIG } from '../config/storage.config';
 import dbData from '../../../db.json';
-
-const STORAGE_KEY = 'keraunos_tasks';
 
 export class LocalStorageAdapter {
   _loadRaw() {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const data = localStorage.getItem(STORAGE_CONFIG.TASKS_KEY);
       if (!data) {
         return dbData.tasks || [];
       }
@@ -23,7 +22,7 @@ export class LocalStorageAdapter {
 
   _saveRaw(tasks) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      localStorage.setItem(STORAGE_CONFIG.TASKS_KEY, JSON.stringify(tasks));
     } catch (error) {
       console.error('Error saving tasks to localStorage:', error);
       throw error;
@@ -52,7 +51,7 @@ export class LocalStorageAdapter {
     };
   }
 
-  getAll() {
+  async getAll() {
     const rawTasks = this._loadRaw();
     let hasChanges = false;
 
@@ -71,13 +70,13 @@ export class LocalStorageAdapter {
     return normalized.map((task) => new Task(task));
   }
 
-  getById(id) {
+  async getById(id) {
     const tasks = this._loadRaw();
     const found = tasks.find((task) => task.id === id);
     return found ? new Task(found) : null;
   }
 
-  create(taskData) {
+  async create(taskData) {
     const tasks = this._loadRaw();
     const newTaskData = this._serializeForStorage({
       ...taskData,
@@ -88,7 +87,7 @@ export class LocalStorageAdapter {
     return new Task(newTaskData);
   }
 
-  update(id, updates) {
+  async update(id, updates) {
     const tasks = this._loadRaw();
     const index = tasks.findIndex((task) => task.id === id);
     
@@ -110,7 +109,7 @@ export class LocalStorageAdapter {
     return new Task(merged);
   }
 
-  delete(id) {
+  async delete(id) {
     const tasks = this._loadRaw();
     const filteredTasks = tasks.filter((task) => task.id !== id);
     this._saveRaw(filteredTasks);

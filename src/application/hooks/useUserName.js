@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
+import { STORAGE_CONFIG } from '../../infrastructure/config/storage.config';
 
 export const useUserName = () => {
   const [userName, setUserName] = useState(() => {
-    return localStorage.getItem('keraunos_user_name') || '';
+    return localStorage.getItem(STORAGE_CONFIG.USERNAME_KEY) || '';
   });
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(!userName);
 
   useEffect(() => {
     if (userName) {
-      localStorage.setItem('keraunos_user_name', userName);
+      localStorage.setItem(STORAGE_CONFIG.USERNAME_KEY, userName);
     }
   }, [userName]);
 
@@ -19,7 +20,7 @@ export const useUserName = () => {
   };
 
   const clearUserName = () => {
-    localStorage.removeItem('keraunos_user_name');
+    localStorage.removeItem(STORAGE_CONFIG.USERNAME_KEY);
     setUserName('');
     setShowWelcomeModal(true);
   };
