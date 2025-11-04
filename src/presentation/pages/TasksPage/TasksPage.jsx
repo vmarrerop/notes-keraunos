@@ -2,19 +2,13 @@ import { useState } from 'react';
 import {
   Container,
   Box,
-  Typography,
-  Paper,
-  Fade,
-  IconButton,
-  alpha,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
 import { useTasks } from '../../../application/hooks/useTasks';
 import { useUserName } from '../../../application/hooks/useUserName';
 import { TaskList } from '../../components/organisms/TaskList/TaskList';
-import { TaskForm } from '../../components/molecules/TaskForm/TaskForm';
 import { TaskStats } from '../../components/molecules/TaskStats/TaskStats';
 import { WelcomeModal } from '../../components/molecules/WelcomeModal/WelcomeModal';
+import { CreateTaskModal } from '../../components/molecules/CreateTaskModal/CreateTaskModal';
 import { FloatingNavBar } from '../../components/molecules/FloatingNavBar/FloatingNavBar';
 import { TASK_STATUS } from '../../../domain/constants/taskStatuses';
 
@@ -56,11 +50,10 @@ const INITIAL_TASKS = [
 export const TasksPage = () => {
   const { tasks, addTask, updateTask, deleteTask } = useTasks(INITIAL_TASKS);
   const { userName, showWelcomeModal, saveUserName } = useUserName();
-  const [isCreating, setIsCreating] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleCreateTask = (taskData) => {
     addTask(taskData);
-    setIsCreating(false);
   };
 
   const taskStats = {
@@ -73,60 +66,20 @@ export const TasksPage = () => {
   return (
     <>
       <WelcomeModal open={showWelcomeModal} onSave={saveUserName} />
+      <CreateTaskModal
+        open={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateTask}
+      />
 
       <Box sx={{ minHeight: '100vh', bgcolor: 'transparent', pb: { xs: 12, md: 14 }, pt: { xs: 2, md: 4 } }}>
         <Container maxWidth="xl" sx={{ px: { xs: 3, sm: 3 } }}>
           <TaskStats stats={taskStats} />
-
-          <Fade in={isCreating} unmountOnExit>
-            <Paper
-              elevation={0}
-              sx={{
-                p: 4,
-                mb: 4,
-                background: alpha('#1e293b', 0.6),
-                backdropFilter: 'blur(20px)',
-                border: '1px solid',
-                borderColor: alpha('#ffffff', 0.1),
-                borderRadius: 3,
-                position: 'relative',
-                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-              }}
-            >
-              <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-                <Typography
-                  variant="h2"
-                  sx={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Crear Nueva Tarea
-                </Typography>
-                <IconButton
-                  onClick={() => setIsCreating(false)}
-                  sx={{
-                    color: 'text.secondary',
-                    '&:hover': {
-                      color: 'error.main',
-                      bgcolor: alpha('#ef4444', 0.1),
-                    },
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Box>
-              <TaskForm onSubmit={handleCreateTask} onCancel={() => setIsCreating(false)} />
-            </Paper>
-          </Fade>
-
           <TaskList tasks={tasks} onUpdateTask={updateTask} onDeleteTask={deleteTask} />
         </Container>
       </Box>
 
-      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreating(true)} />
+      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreateModalOpen(true)} />
     </>
   );
 };
