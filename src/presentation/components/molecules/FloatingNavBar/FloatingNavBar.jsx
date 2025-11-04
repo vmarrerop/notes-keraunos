@@ -1,7 +1,7 @@
-import { Box, Typography, Button, Container, Fade, Avatar } from '@mui/material';
-import { Add as AddIcon, Person as PersonIcon } from '@mui/icons-material';
+import { Box, Typography, Button, Container, Fade, Avatar, Chip } from '@mui/material';
+import { Add as AddIcon, Person as PersonIcon, Cloud as CloudIcon } from '@mui/icons-material';
 
-export const FloatingNavBar = ({ userName, onCreateTask }) => {
+export const FloatingNavBar = ({ userName, onCreateTask, onNavigate }) => {
   return (
     <Fade in timeout={800}>
       <Box
@@ -100,17 +100,43 @@ export const FloatingNavBar = ({ userName, onCreateTask }) => {
             </Typography>
           </Box>
 
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={onCreateTask}
-            sx={{
-              px: { xs: 2, md: 3 },
-              py: { xs: 1, md: 1.25 },
-              borderRadius: 2.5,
-              textTransform: 'none',
-              fontWeight: 600,
-              fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.95rem' },
+          <Box sx={{ display: 'flex', gap: { xs: 1, md: 1.5 }, alignItems: 'center' }}>
+            <Chip
+              icon={<CloudIcon />}
+              label="API EXTERNA"
+              onClick={() => onNavigate('weather')}
+              sx={{
+                background: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
+                color: 'white',
+                fontWeight: 700,
+                fontSize: { xs: '0.7rem', md: '0.75rem' },
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 0 20px rgba(245, 158, 11, 0.4)',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #fb923c 0%, #f59e0b 100%)',
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 0 30px rgba(245, 158, 11, 0.6)',
+                },
+                '& .MuiChip-icon': {
+                  color: 'white',
+                  fontSize: { xs: 18, md: 20 },
+                },
+              }}
+            />
+
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={onCreateTask}
+              sx={{
+                px: { xs: 2, md: 3 },
+                py: { xs: 1, md: 1.25 },
+                borderRadius: 2.5,
+                textTransform: 'none',
+                fontWeight: 600,
+                fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.95rem' },
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%)',
               color: 'white',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -133,6 +159,7 @@ export const FloatingNavBar = ({ userName, onCreateTask }) => {
             </Box>
             <AddIcon sx={{ display: { xs: 'inline', sm: 'none' }, fontSize: 24 }} />
           </Button>
+          </Box>
         </Container>
       </Box>
     </Fade>

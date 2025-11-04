@@ -11,7 +11,6 @@ const TASK_ACTIONS = {
   SET_ERROR: 'SET_ERROR',
 };
 
-// Función helper para eliminar duplicados por ID
 const removeDuplicates = (tasks) => {
   const uniqueTasks = [];
   const seenIds = new Set();

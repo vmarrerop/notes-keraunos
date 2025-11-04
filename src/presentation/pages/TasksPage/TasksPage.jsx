@@ -14,7 +14,7 @@ import { CreateTaskModal } from '../../components/molecules/CreateTaskModal/Crea
 import { FloatingNavBar } from '../../components/molecules/FloatingNavBar/FloatingNavBar';
 import { TASK_STATUS } from '../../../domain/constants/taskStatuses';
 
-export const TasksPage = () => {
+export const TasksPage = ({ onNavigate }) => {
   const { tasks, isLoading, error, addTask, updateTask, deleteTask } = useTasks();
   const { userName, showWelcomeModal, saveUserName } = useUserName();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -84,7 +84,7 @@ export const TasksPage = () => {
         </Container>
       </Box>
 
-      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreateModalOpen(true)} />
+      <FloatingNavBar userName={userName} onCreateTask={() => setIsCreateModalOpen(true)} onNavigate={onNavigate} />
     </>
   );
 };
