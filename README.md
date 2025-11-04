@@ -1,16 +1,86 @@
-# React + Vite
+# Gestor de Tareas Keraunos ⚡
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de gestión de tareas construida con React y Material-UI, siguiendo principios de arquitectura limpia.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✅ CRUD completo de tareas
+- 📊 Estadísticas en tiempo real
+- 🌦️ Integración con API del clima (Open-Meteo)
+- 💾 Persistencia local con localStorage
+- 📱 Diseño responsive
+- 🎨 Interfaz moderna con Material-UI
 
-## React Compiler
+## Requisitos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 18+
+- pnpm
 
-## Expanding the ESLint configuration
+## Instalación
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+pnpm i
+```
+
+## Ejecutar
+
+```bash
+pnpm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`
+
+## Estructura del Proyecto
+
+```
+src/
+├── domain/              # Entidades y lógica de negocio
+├── application/         # Casos de uso
+├── infrastructure/      # Adaptadores y servicios externos
+├── presentation/        # Componentes React
+└── config/              # Configuración y dependencias
+```
+
+## Scripts Disponibles
+
+```bash
+pnpm run dev      # Inicia el servidor de desarrollo
+pnpm run build    # Construye para producción
+pnpm run preview  # Vista previa de la build
+pnpm test         # Ejecuta los tests
+```
+
+## Tecnologías
+
+- React 19
+- Material-UI v7
+- Vite
+- Vitest + React Testing Library
+- Open-Meteo API
+
+## Funcionalidades
+
+### Gestión de Tareas
+- Crear tareas con título y descripción
+- Cambiar estado (Pendiente → En Progreso → Completada)
+- Eliminar tareas
+- Persistencia automática
+
+### API del Clima
+- Consulta del clima actual
+- Pronóstico por horas
+- Búsqueda por ciudad
+- Sin necesidad de API key
+
+## Testing
+
+```bash
+pnpm test           # Modo watch
+pnpm test -- --run  # Ejecutar una vez
+```
+
+Cobertura actual: 80%+
+
+## Licencia
+
+MIT
